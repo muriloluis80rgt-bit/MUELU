@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para Luana ❤️</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
@@ -10,73 +10,73 @@
     <style>
         :root { --cor-primaria: #FF81C1; --bg-escuro: #000; }
 
-        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-
         body, html {
-            margin: 0; padding: 0; height: 100%; width: 100%;
-            overflow: hidden; background: var(--bg-escuro);
-            font-family: 'Quicksand', sans-serif; color: white;
+            margin: 0; padding: 0; height: 100%; overflow: hidden;
+            background: var(--bg-escuro); font-family: 'Quicksand', sans-serif; color: white;
+            /* Evita comportamentos de "puxar para atualizar" no Chrome/Safari */
+            overscroll-behavior-y: contain;
         }
 
-        /* Container de Slides */
         .stories-container {
             display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
             height: 100vh; width: 100vw; -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
         }
         .stories-container::-webkit-scrollbar { display: none; }
 
         .story {
-            min-width: 100vw; width: 100vw; height: 100vh;
-            scroll-snap-align: start; flex-shrink: 0;
+            min-width: 100vw; height: 100vh; scroll-snap-align: start;
             display: flex; justify-content: center; align-items: center;
-            position: relative; overflow: hidden;
+            position: relative; box-sizing: border-box; overflow: hidden;
         }
 
-        /* Animação de Entrada "Floating" */
+        /* Animações de Entrada */
         .content > * {
-            opacity: 0; transform: translateY(25px);
-            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
         }
-        .story.active .content > * { opacity: 1; transform: translateY(0); }
-        .story.active .content > *:nth-child(1) { transition-delay: 0.1s; }
-        .story.active .content > *:nth-child(2) { transition-delay: 0.3s; }
-        .story.active .content > *:nth-child(3) { transition-delay: 0.5s; }
 
-        .content { text-align: center; width: 90%; max-width: 350px; z-index: 5; }
+        .story.active .content > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        h1, h2 { font-family: 'Dancing Script', cursive; font-size: 2.8rem; margin: 0 0 10px; }
-        p { font-size: 1.1rem; line-height: 1.4; }
+        .story.active .content > *:nth-child(1) { transition-delay: 0.2s; }
+        .story.active .content > *:nth-child(2) { transition-delay: 0.4s; }
+        .story.active .content > *:nth-child(3) { transition-delay: 0.6s; }
 
+        .content { text-align: center; width: 90%; max-width: 400px; z-index: 5; padding: 10px; }
+
+        h1, h2 { font-family: 'Dancing Script', cursive; font-size: clamp(2rem, 8vw, 3rem); margin: 0 0 10px; }
+        
         .btn-fofo {
-            padding: 15px 35px; border-radius: 50px; border: none; 
+            padding: 12px 30px; border-radius: 50px; border: none; 
             font-family: 'Quicksand', sans-serif; font-weight: 700;
             background: white; color: var(--cor-primaria);
             box-shadow: 0 4px 15px rgba(255, 129, 193, 0.4);
-            cursor: pointer; font-size: 1rem;
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
         }
 
-        /* Navegação */
+        /* Navegação adaptada para dedos */
         .nav-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.05); border: none; color: white;
-            padding: 40px 15px; cursor: pointer; z-index: 100; font-size: 1.5rem;
+            position: absolute; top: 0; height: 100%; width: 15%; 
+            background: transparent; border: none; color: rgba(255,255,255,0.2); 
+            font-size: 1.5rem; z-index: 100; cursor: pointer;
         }
-        .btn-next { right: 0; border-radius: 20px 0 0 20px; }
-        .btn-prev { left: 0; border-radius: 0 20px 20px 0; }
+        .btn-next { right: 0; }
+        .btn-prev { left: 0; }
 
-        /* Elementos Especiais */
         .sky-img {
             width: 250px; height: 250px; border-radius: 50%; 
             border: 2px solid rgba(255,255,255,0.3); object-fit: cover;
-            animation: girarCeu 120s linear infinite; margin: 20px 0;
+            animation: girarCeu 120s linear infinite;
         }
         @keyframes girarCeu { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         #bg-dinamico {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover; background-position: center;
-            filter: blur(15px) brightness(0.4); transition: background-image 0.8s;
+            filter: blur(15px) brightness(0.4); transition: background-image 0.8s ease;
             z-index: 1;
         }
 
@@ -85,29 +85,25 @@
             perspective: 1000px;
         }
         .photo-card {
-            position: absolute; width: 100%; height: 100%; border-radius: 15px;
-            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            background: #111; touch-action: none;
+            position: absolute; width: 100%; height: 100%; border-radius: 15px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); background: #111; touch-action: none;
         }
         .photo-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-
-        /* Contador */
-        .timer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 15px 0; }
+        
+        .timer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
         .timer-item {
             background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px);
-            padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px; border-radius: 12px;
         }
         .timer-item span { display: block; font-size: 1.5rem; font-weight: bold; color: var(--cor-primaria); }
-        .timer-item label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Roleta */
         .roulette-wrapper {
             position: relative; width: 240px; height: 240px; margin: 20px auto;
-            border: 5px solid #fff; border-radius: 50%; background: #fff;
+            border: 5px solid #fff; border-radius: 50%; overflow: hidden;
         }
         .wheel {
             width: 100%; height: 100%; border-radius: 50%;
-            transition: transform 4s cubic-bezier(0.1, 0, 0.1, 1);
+            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
             background: conic-gradient(#FF69B4 0deg 60deg, #FFB6C1 60deg 120deg, #FF81C1 120deg 180deg, #FFC0CB 180deg 240deg, #DB7093 240deg 300deg, #FF99CC 300deg 360deg);
         }
         .kitty-btn {
@@ -116,66 +112,54 @@
             border-radius: 50%; z-index: 15; cursor: pointer;
         }
 
-        .glow-text { font-family: 'Dancing Script', cursive; font-size: 2.2rem; text-shadow: 0 0 10px var(--cor-primaria); }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
     </style>
 </head>
 <body>
 
     <div class="stories-container" id="container">
-        
-        <section class="story active" id="slide-0" style="background: radial-gradient(circle, #222, #000);">
+        <section class="story active" id="slide-0">
             <div class="content">
                 <h1>Lua 🌙</h1>
-                <p>Preparei uma surpresa com todo meu amor. Navegue pelas nossas memórias...</p>
-                <button onclick="irPara(1)" class="btn-fofo">Entrar ❤️</button>
+                <p>Navegue pelas nossas memórias...</p>
+                <button onclick="irPara(1)" class="btn-fofo">Tocar para começar ❤️</button>
             </div>
-            <button class="nav-btn btn-next" onclick="irPara(1)">❯</button>
+            <button class="nav-btn btn-next" onclick="irPara(1)"></button>
         </section>
 
         <section class="story" id="slide-1" style="background: #05050a;">
-            <button class="nav-btn btn-prev" onclick="irPara(0)">❮</button>
+            <button class="nav-btn btn-prev" onclick="irPara(0)"></button>
             <div class="content">
                 <h2>Nosso Primeiro Céu</h2>
                 <img src="https://i.postimg.cc/HnvKRWPT/Captura-de-tela-2026-04-13-184009-removebg-preview.png" class="sky-img">
-                <p>14 de junho de 2024</p>
+                <p style="margin-top:15px; font-size: 0.9rem; opacity: 0.8;">14 de junho de 2024</p>
             </div>
-            <button class="nav-btn btn-next" onclick="irPara(2)">❯</button>
+            <button class="nav-btn btn-next" onclick="irPara(2)"></button>
         </section>
 
         <section class="story" id="slide-2">
             <div id="bg-dinamico"></div>
-            <button class="nav-btn btn-prev" onclick="irPara(1)">❮</button>
+            <button class="nav-btn btn-prev" onclick="irPara(1)"></button>
             <div class="content">
-                <h2 style="text-shadow: 2px 2px 10px #000;">Nossa Galeria</h2>
+                <h2 style="text-shadow: 2px 2px 10px rgba(0,0,0,0.8);">Nossa Galeria</h2>
                 <div class="cards-stack" id="deck"></div>
-                <button id="resetBtn" class="btn-fofo" style="opacity:0; pointer-events:none; margin-top:10px;" onclick="carregarFotos()">Ver de novo 🥹</button>
+                <button id="resetBtn" class="btn-fofo" style="display:none;" onclick="carregarFotos()">Ver de novo 🥹</button>
             </div>
-            <button class="nav-btn btn-next" onclick="irPara(3)">❯</button>
+            <button class="nav-btn btn-next" onclick="irPara(3)"></button>
         </section>
 
-        <section class="story" id="slide-3" style="background: #111;">
-            <button class="nav-btn btn-prev" onclick="irPara(2)">❮</button>
-            <div class="content">
-                <h2>O Plano Infalível</h2>
+        <section class="story" id="slide-5">
+            <div class="content" style="z-index:10;">
+                <h2>Juntos a...</h2>
                 <div class="timer-grid">
-                    <div class="timer-item"><span id="d">00</span><label>Dias</label></div>
-                    <div class="timer-item"><span id="h">00</span><label>Horas</label></div>
-                    <div class="timer-item"><span id="m">00</span><label>Mins</label></div>
-                    <div class="timer-item"><span id="s">00</span><label>Segs</label></div>
+                    <div class="timer-item"><span id="d">00</span><small>Dias</small></div>
+                    <div class="timer-item"><span id="h">00</span><small>Horas</small></div>
+                    <div class="timer-item"><span id="m">00</span><small>Minutos</small></div>
+                    <div class="timer-item"><span id="s">00</span><small>Segundos</small></div>
                 </div>
-                <p style="font-size: 0.9rem; margin-top: 20px; color: var(--cor-primaria);">
-                    Faltam <b><span id="rd">00</span> dias</b> para o nosso "Sim" 💍
-                </p>
+                <p style="margin-top:30px;">Faltam <span id="rd">00</span> dias para o nosso sim 💍</p>
             </div>
-            <button class="nav-btn btn-next" onclick="irPara(4)">❯</button>
-        </section>
-
-        <section class="story" id="slide-4" style="background: #000;">
-            <button class="nav-btn btn-prev" onclick="irPara(3)">❮</button>
-            <div class="content">
-                <div class="glow-text">Eu te amo,<br>para todo o sempre.</div>
-                <div style="font-size: 5rem; margin-top: 20px;">❤️</div>
-            </div>
+            <button class="nav-btn btn-prev" onclick="irPara(2)"></button>
         </section>
     </div>
 
@@ -183,80 +167,86 @@
         const container = document.getElementById('container');
         const slides = document.querySelectorAll('.story');
 
-        // Observer para animar slides ao entrar na tela
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) entry.target.classList.add('active');
+        // Scroll suave e ativação de classes
+        container.addEventListener('scroll', () => {
+            let index = Math.round(container.scrollLeft / window.innerWidth);
+            slides.forEach((s, i) => {
+                if(i === index) s.classList.add('active');
+                else s.classList.remove('active');
             });
-        }, { threshold: 0.5 });
-        slides.forEach(s => observer.observe(s));
+        });
 
         function irPara(index) {
             container.scrollTo({ left: window.innerWidth * index, behavior: 'smooth' });
         }
 
-        // Fotos (Substitua pelos seus links reais)
         const links = [
             "https://i.postimg.cc/FKgJZY7Y/photo-2026-04-13-19-31-04.jpg",
             "https://i.postimg.cc/7LMTV5f1/photo-2026-04-13-19-31-06.jpg",
-            "https://i.postimg.cc/q7XCLNzx/photo-2026-04-13-19-31-10.jpg"
-        ].reverse();
+            "https://i.postimg.cc/q7XCLNzx/photo-2026-04-13-19-31-10.jpg",
+            "https://i.postimg.cc/DzdbgS8d/photo-2026-04-13-19-31-14.jpg",
+            "https://i.postimg.cc/N07r4K5D/photo-2026-04-13-19-31-18.jpg"
+        ];
 
         let fotosRemovidas = 0;
+        
         function carregarFotos() {
             const deck = document.getElementById('deck');
             const btn = document.getElementById('resetBtn');
-            deck.innerHTML = ''; fotosRemovidas = 0;
-            btn.style.opacity = '0'; btn.style.pointerEvents = 'none';
+            const bg = document.getElementById('bg-dinamico');
+            
+            deck.innerHTML = '';
+            fotosRemovidas = 0;
+            btn.style.display = 'none';
 
             links.forEach((src, i) => {
                 const card = document.createElement('div');
                 card.className = 'photo-card';
-                card.style.zIndex = i + 10;
+                card.style.zIndex = links.length - i;
                 card.innerHTML = `<img src="${src}">`;
                 deck.appendChild(card);
                 configurarSwipe(card);
+                if(i === 0) bg.style.backgroundImage = `url(${src})`;
             });
         }
 
         function configurarSwipe(el) {
             let startX, moveX = 0;
-            const iniciar = (e) => { startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX; el.style.transition = 'none'; };
-            const mover = (e) => {
+            const iniciar = (e) => { 
+                startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            };
+            const mover = (e) => { 
                 if (!startX) return;
-                let curX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-                moveX = curX - startX;
+                moveX = (e.type.includes('touch') ? e.touches[0].clientX : e.clientX) - startX;
                 el.style.transform = `translateX(${moveX}px) rotate(${moveX/15}deg)`;
             };
             const finalizar = () => {
-                if (!startX) return; el.style.transition = '0.5s';
+                if (!startX) return;
                 if (Math.abs(moveX) > 100) {
                     el.style.transform = `translateX(${moveX > 0 ? 1000 : -1000}px) rotate(${moveX/5}deg)`;
-                    el.style.opacity = '0'; fotosRemovidas++;
-                    if (fotosRemovidas === links.length) {
-                        document.getElementById('resetBtn').style.opacity = '1';
-                        document.getElementById('resetBtn').style.pointerEvents = 'auto';
-                    }
-                } else { el.style.transform = 'translateX(0) rotate(0)'; }
+                    el.style.opacity = '0';
+                    fotosRemovidas++;
+                    if (fotosRemovidas === links.length) document.getElementById('resetBtn').style.display = 'inline-block';
+                } else {
+                    el.style.transform = 'translateX(0) rotate(0)';
+                }
                 startX = null;
             };
             el.addEventListener('touchstart', iniciar); el.addEventListener('touchmove', mover); el.addEventListener('touchend', finalizar);
-            el.addEventListener('mousedown', iniciar); window.addEventListener('mousemove', mover); window.addEventListener('mouseup', finalizar);
         }
 
         function updateTimers() {
-            const agora = new Date();
             const inicio = new Date(2024, 5, 14); 
-            const destino = new Date(2028, 8, 16);
-            
+            const agora = new Date();
             const diff = agora - inicio;
             document.getElementById('d').innerText = Math.floor(diff / 864e5);
             document.getElementById('h').innerText = Math.floor((diff % 864e5) / 36e5);
             document.getElementById('m').innerText = Math.floor((diff % 36e5) / 6e4);
             document.getElementById('s').innerText = Math.floor((diff % 6e4) / 1e3);
 
+            const destino = new Date(2028, 8, 16);
             const diffReg = destino - agora;
-            document.getElementById('rd').innerText = Math.max(0, Math.floor(diffReg / 864e5));
+            document.getElementById('rd').innerText = Math.floor(diffReg / 864e5);
         }
 
         setInterval(updateTimers, 1000);
