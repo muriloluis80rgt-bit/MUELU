@@ -8,6 +8,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* Estilo para o Botão do Spotify */
+.spotify-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    width: 50px;
+    height: 50px;
+    background-color: #1DB954;
+    border-radius: 50%;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(29, 185, 84, 0.4);
+    transition: transform 0.3s ease;
+    animation: pulse-spotify 2s infinite;
+}
+
+.spotify-link:active {
+    transform: scale(0.9);
+}
+
+.spotify-link img {
+    width: 30px;
+    height: 30px;
+}
+
+@keyframes pulse-spotify {
+    0% { box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(29, 185, 84, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(29, 185, 84, 0); }
+}
+        
+        
         :root { --cor-primaria: #FF81C1; --bg-escuro: #000; }
 
         body, html {
@@ -149,17 +181,24 @@
             <button class="nav-btn btn-prev" onclick="irPara(2)">❮</button>
             <div class="content">
                 <h2>Nossa Vibe</h2>
-                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 20px; backdrop-filter: blur(10px);">
-                    <p style="margin:0; font-weight:bold;">See You Again</p>
-                    <p style="margin:0; font-size:0.8rem; opacity:0.7;">Tyler, The Creator</p>
-                </div>
-            </div>
-            <button class="nav-btn btn-next" onclick="irPara(4)">❯</button>
-        </section>
-
-        <section class="story" id="slide-4">
-            <button class="nav-btn btn-prev" onclick="irPara(3)">❮</button>
-            <div class="content">
+              <section class="story" id="slide-4">
+    <button class="nav-btn btn-prev" onclick="irPara(3)">❮</button>
+    <div class="content">
+        <h2>Roleta da Sorte</h2>
+        <div class="roulette-wrapper">
+            <div class="wheel" id="wheel"></div>
+            <button class="kitty-btn" onclick="girarRoleta()">
+                <img src="https://i.postimg.cc/NGzFc6Xb/sqn-07092-hello-kitty-xoyxbelv8e.webp" style="width:100%; border-radius: 50%;">
+            </button>
+        </div>
+        <p id="resRoleta" style="font-family:'Dancing Script'; font-size:1.8rem; margin-bottom: 10px;">Gira aí! ✨</p>
+        
+        <a href="https://open.spotify.com/intl-pt/track/7KA4W4McWYRpgf0fWsJZWB?si=37d1070e2cda4f7d" target="_blank" class="spotify-link">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify">
+        </a>
+    </div>
+    <button class="nav-btn btn-next" onclick="irPara(5)">❯</button>
+</section>
                 <h2>Roleta da Sorte</h2>
                 <div class="roulette-wrapper">
                     <div class="wheel" id="wheel"></div>
