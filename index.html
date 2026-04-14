@@ -1,605 +1,303 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
     <title>Para Luana ❤️</title>
-
     
-
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 
-
-
     <style>
-
         :root { --cor-primaria: #FF81C1; --bg-escuro: #000; }
 
-
-
         body, html {
-
             margin: 0; padding: 0; height: 100%; overflow: hidden;
-
             background: var(--bg-escuro); font-family: 'Quicksand', sans-serif; color: white;
-
             touch-action: pan-x; /* Melhora a rolagem lateral no mobile */
-
             overscroll-behavior-y: contain; /* Impede o pull-to-refresh */
-
         }
-
-
 
         .stories-container {
-
             display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-
             height: 100vh; width: 100vw; -webkit-overflow-scrolling: touch;
-
         }
-
         .stories-container::-webkit-scrollbar { display: none; }
 
-
-
         .story {
-
             min-width: 100vw; height: 100vh; scroll-snap-align: start;
-
             display: flex; justify-content: center; align-items: center;
-
             position: relative; box-sizing: border-box; overflow: hidden;
-
         }
-
-
 
         .content { text-align: center; width: 100%; max-width: 400px; z-index: 5; padding: 20px; box-sizing: border-box; }
 
-
-
         /* Animações suaves */
-
         .content > * {
-
             opacity: 0; transform: translateY(25px);
-
             transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-
         }
-
-
 
         .story.active .content > * { opacity: 1; transform: translateY(0); }
-
         .story.active .content > *:nth-child(1) { transition-delay: 0.1s; }
-
         .story.active .content > *:nth-child(2) { transition-delay: 0.3s; }
-
         .story.active .content > *:nth-child(3) { transition-delay: 0.5s; }
 
-
-
         h1, h2 { font-family: 'Dancing Script', cursive; font-size: clamp(2rem, 9vw, 3rem); margin: 0 0 10px; }
-
         
-
         .btn-fofo {
-
             padding: 15px 35px; border-radius: 50px; border: none; 
-
             font-family: 'Quicksand', sans-serif; font-weight: 700;
-
             background: white; color: var(--cor-primaria);
-
             box-shadow: 0 4px 15px rgba(255, 129, 193, 0.4);
-
             cursor: pointer;
-
         }
-
-
 
         /* Áreas de navegação invisíveis para mobile */
-
         .nav-btn {
-
             position: absolute; top: 0; width: 20%; height: 100%;
-
             background: transparent; border: none; color: rgba(255,255,255,0.1);
-
             z-index: 100; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
-
         }
-
         .btn-next { right: 0; }
-
         .btn-prev { left: 0; }
 
-
-
         .sky-img {
-
             width: 250px; height: 250px; border-radius: 50%; 
-
             border: 2px solid rgba(255,255,255,0.3); object-fit: cover;
-
             animation: girarCeu 120s linear infinite;
-
         }
-
         @keyframes girarCeu { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-
-
         #bg-dinamico {
-
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-
             background-size: cover; background-position: center;
-
             filter: blur(15px) brightness(0.3); transition: background-image 0.8s ease;
-
             z-index: 1;
-
         }
-
-
 
         .cards-stack {
-
             position: relative; width: 260px; height: 380px; margin: 15px auto;
-
             perspective: 1000px; display: flex; justify-content: center; align-items: center;
-
         }
-
         .photo-card {
-
             position: absolute; width: 100%; height: 100%; border-radius: 20px; overflow: hidden;
-
             box-shadow: 0 15px 35px rgba(0,0,0,0.6); background: #111; touch-action: none;
-
         }
-
         .photo-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-
         
-
         .timer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
         .timer-item {
-
             background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
-
             padding: 12px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);
-
         }
-
         .timer-item span { display: block; font-size: 1.6rem; font-weight: bold; color: var(--cor-primaria); }
 
-
-
         .roulette-wrapper {
-
             position: relative; width: 240px; height: 240px; margin: 20px auto;
-
             border: 6px solid #fff; border-radius: 50%; overflow: hidden;
-
         }
-
         .wheel {
-
             width: 100%; height: 100%; border-radius: 50%;
-
             transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
-
             background: conic-gradient(#FF69B4 0deg 60deg, #FFB6C1 60deg 120deg, #FF81C1 120deg 180deg, #FFC0CB 180deg 240deg, #DB7093 240deg 300deg, #FF99CC 300deg 360deg);
-
         }
-
         .kitty-btn {
-
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-
             width: 60px; height: 60px; background: #fff; border-radius: 50%; z-index: 15; cursor: pointer; border: none;
-
         }
-
-
 
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
-
     </style>
-
 </head>
-
 <body>
 
-
-
     <div class="stories-container" id="container">
-
         <section class="story active" id="slide-0">
-
             <div class="content">
-
                 <h1>Lua 🌙</h1>
-
                 <p>Nossas memórias em um lugar só.</p>
-
                 <button onclick="irPara(1)" class="btn-fofo">Abrir 🫵🏻❤️</button>
-
             </div>
-
             <button class="nav-btn btn-next" onclick="irPara(1)">❯</button>
-
         </section>
-
-
 
         <section class="story" id="slide-1" style="background: #05050a;">
-
             <button class="nav-btn btn-prev" onclick="irPara(0)">❮</button>
-
             <div class="content">
-
                 <h2>Nosso Primeiro Céu</h2>
-
                 <img src="https://i.postimg.cc/HnvKRWPT/Captura-de-tela-2026-04-13-184009-removebg-preview.png" class="sky-img">
-
                 <p style="margin-top:15px; font-size: 0.9rem; opacity: 0.8;">14 de junho de 2024</p>
-
             </div>
-
             <button class="nav-btn btn-next" onclick="irPara(2)">❯</button>
-
         </section>
-
-
 
         <section class="story" id="slide-2">
-
             <div id="bg-dinamico"></div>
-
             <button class="nav-btn btn-prev" onclick="irPara(1)">❮</button>
-
             <div class="content">
-
                 <h2 style="text-shadow: 2px 2px 10px rgba(0,0,0,0.8);">Nossa Galeria</h2>
-
                 <div class="cards-stack" id="deck">
-
                     <div class="heart-final" id="heart" style="position: absolute; font-size: 5rem; opacity:0;">❤️</div>
-
                 </div>
-
                 <button id="resetBtn" class="btn-fofo" style="opacity:0; pointer-events:none;" onclick="carregarFotos()">Recomeçar 🥹</button>
-
             </div>
-
             <button class="nav-btn btn-next" onclick="irPara(3)">❯</button>
-
         </section>
-
-
 
         <section class="story" id="slide-3">
-
             <div style="position:absolute; top:0; width:100%; height:100%; background:url('https://i.postimg.cc/Prsy2wqM/1900x1900-000000-80-0-0.jpg') center/cover; opacity:0.3; filter:blur(4px);"></div>
-
             <button class="nav-btn btn-prev" onclick="irPara(2)">❮</button>
-
             <div class="content">
-
                 <h2>Nossa Vibe</h2>
-
                 <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 20px; backdrop-filter: blur(10px);">
-
                     <p style="margin:0; font-weight:bold;">See You Again</p>
-
                     <p style="margin:0; font-size:0.8rem; opacity:0.7;">Tyler, The Creator</p>
-
                 </div>
-
             </div>
-
             <button class="nav-btn btn-next" onclick="irPara(4)">❯</button>
-
         </section>
-
-
 
         <section class="story" id="slide-4">
-
             <button class="nav-btn btn-prev" onclick="irPara(3)">❮</button>
-
             <div class="content">
-
                 <h2>Roleta da Sorte</h2>
-
                 <div class="roulette-wrapper">
-
                     <div class="wheel" id="wheel"></div>
-
                     <button class="kitty-btn" onclick="girarRoleta()">
-
                         <img src="https://i.postimg.cc/NGzFc6Xb/sqn-07092-hello-kitty-xoyxbelv8e.webp" style="width:100%; border-radius: 50%;">
-
                     </button>
-
                 </div>
-
                 <p id="resRoleta" style="font-family:'Dancing Script'; font-size:1.8rem;">Gira aí! ✨</p>
-
             </div>
-
             <button class="nav-btn btn-next" onclick="irPara(5)">❯</button>
-
         </section>
-
-
 
         <section class="story" id="slide-5">
-
             <div style="position:absolute; top:0; width:100%; height:100%; background:url('https://i.postimg.cc/BbTKhNZ1/photo-2026-04-13-19-31-35.jpg') center/cover; filter: brightness(0.3); z-index:1;"></div>
-
             <button class="nav-btn btn-prev" onclick="irPara(4)">❮</button>
-
             <div class="content">
-
                 <h2>Juntos a...</h2>
-
                 <div class="timer-grid">
-
                     <div class="timer-item"><span id="d">00</span><small>Dias</small></div>
-
                     <div class="timer-item"><span id="h">00</span><small>Horas</small></div>
-
                     <div class="timer-item"><span id="m">00</span><small>Minutos</small></div>
-
                     <div class="timer-item"><span id="s">00</span><small>Segundos</small></div>
-
                 </div>
-
                 <div style="margin-top: 25px;">
-
                     <small>Faltam <span id="rd">0</span> dias para o nosso "Sim" 💍</small>
-
                 </div>
-
             </div>
-
             <button class="nav-btn btn-next" onclick="irPara(6)">❯</button>
-
         </section>
-
-
 
         <section class="story" id="slide-6" style="background: #000;">
-
             <div class="content">
-
                 <h2 class="glow-text">Para Sempre... ❤️</h2>
-
             </div>
-
             <button class="nav-btn btn-prev" onclick="irPara(5)">❮</button>
-
         </section>
-
     </div>
 
-
-
     <script>
-
         const container = document.getElementById('container');
-
         const slides = document.querySelectorAll('.story');
 
-
-
         container.addEventListener('scroll', () => {
-
             let index = Math.round(container.scrollLeft / window.innerWidth);
-
             slides.forEach((s, i) => {
-
                 if(i === index) s.classList.add('active');
-
                 else s.classList.remove('active');
-
             });
-
         });
 
-
-
         function irPara(index) {
-
             container.scrollTo({ left: window.innerWidth * index, behavior: 'smooth' });
-
         }
-
-
 
         const links = [
-
             "https://i.postimg.cc/FKgJZY7Y/photo-2026-04-13-19-31-04.jpg",
-
             "https://i.postimg.cc/7LMTV5f1/photo-2026-04-13-19-31-06.jpg",
-
             "https://i.postimg.cc/q7XCLNzx/photo-2026-04-13-19-31-10.jpg",
-
             "https://i.postimg.cc/DzdbgS8d/photo-2026-04-13-19-31-14.jpg",
-
             "https://i.postimg.cc/N07r4K5D/photo-2026-04-13-19-31-18.jpg"
-
         ].reverse();
 
-
-
         let fotosRemovidas = 0;
-
         
-
         function carregarFotos() {
-
             const deck = document.getElementById('deck');
-
             const btn = document.getElementById('resetBtn');
-
             const bg = document.getElementById('bg-dinamico');
-
             deck.querySelectorAll('.photo-card').forEach(c => c.remove());
-
             fotosRemovidas = 0;
-
             btn.style.opacity = '0';
-
             btn.style.pointerEvents = 'none';
 
-
-
             links.forEach((src, i) => {
-
                 const card = document.createElement('div');
-
                 card.className = 'photo-card';
-
                 card.style.zIndex = i + 10;
-
                 card.innerHTML = `<img src="${src}">`;
-
                 deck.appendChild(card);
-
                 configurarSwipe(card);
-
                 if(i === links.length - 1) bg.style.backgroundImage = `url(${src})`;
-
             });
-
         }
-
-
 
         function configurarSwipe(el) {
-
             let startX, moveX = 0;
-
             const bg = document.getElementById('bg-dinamico');
-
             const finalizar = () => {
-
                 if (Math.abs(moveX) > 100) {
-
                     el.style.transform = `translateX(${moveX > 0 ? 1000 : -1000}px) rotate(${moveX/5}deg)`;
-
                     el.style.opacity = '0';
-
                     fotosRemovidas++;
-
                     const proxima = links[links.length - 1 - fotosRemovidas];
-
                     if(proxima) bg.style.backgroundImage = `url(${proxima})`;
-
                     if (fotosRemovidas === links.length) {
-
                         document.getElementById('resetBtn').style.opacity = '1';
-
                         document.getElementById('resetBtn').style.pointerEvents = 'auto';
-
                     }
-
                 } else { el.style.transform = 'translateX(0) rotate(0)'; }
-
                 startX = null; moveX = 0;
-
             };
 
-
-
             el.addEventListener('touchstart', e => { startX = e.touches[0].clientX; el.style.transition = 'none'; });
-
             el.addEventListener('touchmove', e => { 
-
                 if(!startX) return;
-
                 moveX = e.touches[0].clientX - startX;
-
                 el.style.transform = `translateX(${moveX}px) rotate(${moveX/15}deg)`;
-
             });
-
             el.addEventListener('touchend', finalizar);
-
         }
-
-
 
         let rot = 0;
-
         function girarRoleta() {
-
             const wheel = document.getElementById('wheel');
-
             const res = document.getElementById('resRoleta');
-
             const premios = ["Beijo 💋", "Massagem 💆‍♀️", "Surpresa! 🎁", "Jantar 🍝", "Cinema 🍿", "Carinho 💖"];
-
             res.innerText = "Sorteando...";
-
             const sorteio = Math.floor(Math.random() * 6);
-
             rot += (360 * 5) + (60 * sorteio);
-
             wheel.style.transform = `rotate(${rot}deg)`;
-
             setTimeout(() => { res.innerText = "Ganhou: " + premios[sorteio]; }, 4000);
-
         }
-
-
 
         function updateTimers() {
-
             const agora = new Date();
-
             const inicio = new Date(2024, 5, 14);
-
             const diff = agora - inicio;
-
             document.getElementById('d').innerText = Math.floor(diff / 864e5);
-
             document.getElementById('h').innerText = Math.floor((diff % 864e5) / 36e5);
-
             document.getElementById('m').innerText = Math.floor((diff % 36e5) / 6e4);
-
             document.getElementById('s').innerText = Math.floor((diff % 6e4) / 1e3);
 
-
-
             const destino = new Date(2028, 8, 16);
-
             document.getElementById('rd').innerText = Math.floor((destino - agora) / 864e5);
-
         }
 
-
-
         setInterval(updateTimers, 1000);
-
         window.onload = carregarFotos;
-
     </script>
-
 </body>
-
 </html>
