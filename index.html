@@ -31,9 +31,10 @@
 
         .content { text-align: center; width: 100%; max-width: 400px; z-index: 5; padding: 20px; box-sizing: border-box; }
 
+        /* Animações de entrada */
         .content > * {
-            opacity: 0; transform: translateY(25px);
-            transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+            opacity: 0; transform: translateY(20px);
+            transition: all 0.6s ease-out;
         }
 
         .story.active .content > * { opacity: 1; transform: translateY(0); }
@@ -53,46 +54,17 @@
 
         .nav-btn {
             position: absolute; top: 0; width: 20%; height: 100%;
-            background: transparent; border: none; color: rgba(255,255,255,0.1);
-            z-index: 100; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+            background: transparent; border: none; z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.2); font-size: 1.5rem;
         }
         .btn-next { right: 0; }
         .btn-prev { left: 0; }
 
-        .sky-img {
-            width: 250px; height: 250px; border-radius: 50%; 
-            border: 2px solid rgba(255,255,255,0.3); object-fit: cover;
-            animation: girarCeu 120s linear infinite;
-        }
-        @keyframes girarCeu { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        #bg-dinamico {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center;
-            filter: blur(15px) brightness(0.3); transition: background-image 0.8s ease;
-            z-index: 1;
-        }
-
-        .cards-stack {
-            position: relative; width: 260px; height: 380px; margin: 15px auto;
-            perspective: 1000px; display: flex; justify-content: center; align-items: center;
-        }
-        .photo-card {
-            position: absolute; width: 100%; height: 100%; border-radius: 20px; overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6); background: #111; touch-action: none;
-        }
-        .photo-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-        
-        .timer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .timer-item {
-            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
-            padding: 12px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);
-        }
-        .timer-item span { display: block; font-size: 1.6rem; font-weight: bold; color: var(--cor-primaria); }
-
+        /* Estilo da Roleta */
         .roulette-wrapper {
-            position: relative; width: 220px; height: 220px; margin: 10px auto;
-            border: 6px solid #fff; border-radius: 50%; overflow: hidden;
+            position: relative; width: 220px; height: 220px; margin: 15px auto;
+            border: 5px solid #fff; border-radius: 50%;
         }
         .wheel {
             width: 100%; height: 100%; border-radius: 50%;
@@ -101,37 +73,53 @@
         }
         .kitty-btn {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 60px; height: 60px; background: #fff; border-radius: 50%; z-index: 15; cursor: pointer; border: none;
+            width: 55px; height: 55px; background: #fff; border-radius: 50%; z-index: 15; cursor: pointer; border: none; padding: 0;
         }
 
-        /* Estilo do Spotify */
+        /* Botão do Spotify Corrigido */
+        .spotify-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
         .spotify-link {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 15px;
             width: 50px;
             height: 50px;
             background-color: var(--spotify-green);
             border-radius: 50%;
             text-decoration: none;
-            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.4);
-            transition: transform 0.3s ease;
-            animation: pulse-spotify 2s infinite;
+            box-shadow: 0 0 15px rgba(29, 185, 84, 0.5);
+            animation: pulse-sp 2s infinite;
+            z-index: 200; /* Garante que fique acima de tudo */
         }
         .spotify-link img { width: 30px; height: 30px; }
-        
-        @keyframes pulse-spotify {
-            0% { box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(29, 185, 84, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(29, 185, 84, 0); }
+
+        @keyframes pulse-sp {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(29, 185, 84, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(29, 185, 84, 0); }
         }
+
+        /* Galeria e Outros */
+        .sky-img { width: 230px; height: 230px; border-radius: 50%; object-fit: cover; animation: girarCeu 120s linear infinite; border: 2px solid rgba(255,255,255,0.3); }
+        @keyframes girarCeu { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        #bg-dinamico { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; filter: blur(15px) brightness(0.3); z-index: 1; transition: 0.8s; }
+        .cards-stack { position: relative; width: 260px; height: 360px; margin: 10px auto; perspective: 1000px; }
+        .photo-card { position: absolute; width: 100%; height: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); background: #111; }
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; }
+        .timer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .timer-item { background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 15px; }
+        .timer-item span { display: block; font-size: 1.5rem; font-weight: bold; color: var(--cor-primaria); }
     </style>
 </head>
 <body>
 
     <div class="stories-container" id="container">
-        <section class="story active" id="slide-0">
+        <section class="story active">
             <div class="content">
                 <h1>Lua 🌙</h1>
                 <p>Nossas memórias em um lugar só.</p>
@@ -140,28 +128,28 @@
             <button class="nav-btn btn-next" onclick="irPara(1)">❯</button>
         </section>
 
-        <section class="story" id="slide-1" style="background: #05050a;">
+        <section class="story" style="background: #05050a;">
             <button class="nav-btn btn-prev" onclick="irPara(0)">❮</button>
             <div class="content">
                 <h2>Nosso Primeiro Céu</h2>
                 <img src="https://i.postimg.cc/HnvKRWPT/Captura-de-tela-2026-04-13-184009-removebg-preview.png" class="sky-img">
-                <p style="margin-top:15px; font-size: 0.9rem; opacity: 0.8;">14 de junho de 2024</p>
+                <p style="margin-top:10px; font-size: 0.8rem; opacity: 0.7;">14 de junho de 2024</p>
             </div>
             <button class="nav-btn btn-next" onclick="irPara(2)">❯</button>
         </section>
 
-        <section class="story" id="slide-2">
+        <section class="story">
             <div id="bg-dinamico"></div>
             <button class="nav-btn btn-prev" onclick="irPara(1)">❮</button>
             <div class="content">
-                <h2 style="text-shadow: 2px 2px 10px rgba(0,0,0,0.8);">Nossa Galeria</h2>
+                <h2 style="text-shadow: 2px 2px 10px #000;">Nossa Galeria</h2>
                 <div class="cards-stack" id="deck"></div>
                 <button id="resetBtn" class="btn-fofo" style="opacity:0; pointer-events:none;" onclick="carregarFotos()">Recomeçar 🥹</button>
             </div>
             <button class="nav-btn btn-next" onclick="irPara(3)">❯</button>
         </section>
 
-        <section class="story" id="slide-3">
+        <section class="story">
             <div style="position:absolute; top:0; width:100%; height:100%; background:url('https://i.postimg.cc/Prsy2wqM/1900x1900-000000-80-0-0.jpg') center/cover; opacity:0.3; filter:blur(4px);"></div>
             <button class="nav-btn btn-prev" onclick="irPara(2)">❮</button>
             <div class="content">
@@ -174,7 +162,7 @@
             <button class="nav-btn btn-next" onclick="irPara(4)">❯</button>
         </section>
 
-        <section class="story" id="slide-4">
+        <section class="story">
             <button class="nav-btn btn-prev" onclick="irPara(3)">❮</button>
             <div class="content">
                 <h2>Roleta da Sorte</h2>
@@ -184,16 +172,18 @@
                         <img src="https://i.postimg.cc/NGzFc6Xb/sqn-07092-hello-kitty-xoyxbelv8e.webp" style="width:100%; border-radius: 50%;">
                     </button>
                 </div>
-                <p id="resRoleta" style="font-family:'Dancing Script'; font-size:1.8rem; margin: 10px 0;">Gira aí! ✨</p>
+                <p id="resRoleta" style="font-family:'Dancing Script'; font-size:1.6rem; margin: 10px 0;">Gira aí! ✨</p>
                 
-                <a href="https://open.spotify.com/intl-pt/track/7KA4W4McWYRpgf0fWsJZWB?si=37d1070e2cda4f7d" target="_blank" class="spotify-link">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify">
-                </a>
+                <div class="spotify-container">
+                    <a href="https://open.spotify.com/intl-pt/track/7KA4W4McWYRpgf0fWsJZWB?si=37d1070e2cda4f7d" target="_blank" class="spotify-link">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify">
+                    </a>
+                </div>
             </div>
             <button class="nav-btn btn-next" onclick="irPara(5)">❯</button>
         </section>
 
-        <section class="story" id="slide-5">
+        <section class="story">
             <div style="position:absolute; top:0; width:100%; height:100%; background:url('https://i.postimg.cc/BbTKhNZ1/photo-2026-04-13-19-31-35.jpg') center/cover; filter: brightness(0.3); z-index:1;"></div>
             <button class="nav-btn btn-prev" onclick="irPara(4)">❮</button>
             <div class="content">
@@ -204,16 +194,16 @@
                     <div class="timer-item"><span id="m">00</span><small>Minutos</small></div>
                     <div class="timer-item"><span id="s">00</span><small>Segundos</small></div>
                 </div>
-                <div style="margin-top: 25px;">
+                <div style="margin-top: 20px;">
                     <small>Faltam <span id="rd">0</span> dias para o nosso "Sim" 💍</small>
                 </div>
             </div>
             <button class="nav-btn btn-next" onclick="irPara(6)">❯</button>
         </section>
 
-        <section class="story" id="slide-6" style="background: #000;">
+        <section class="story">
             <div class="content">
-                <h2>Para Sempre... ❤️</h2>
+                <h2 style="font-size: 3.5rem;">Para Sempre... ❤️</h2>
             </div>
             <button class="nav-btn btn-prev" onclick="irPara(5)">❮</button>
         </section>
@@ -223,6 +213,7 @@
         const container = document.getElementById('container');
         const slides = document.querySelectorAll('.story');
 
+        // Navegação de slides
         container.addEventListener('scroll', () => {
             let index = Math.round(container.scrollLeft / window.innerWidth);
             slides.forEach((s, i) => {
@@ -235,6 +226,7 @@
             container.scrollTo({ left: window.innerWidth * index, behavior: 'smooth' });
         }
 
+        // Galeria de Fotos
         const links = [
             "https://i.postimg.cc/FKgJZY7Y/photo-2026-04-13-19-31-04.jpg",
             "https://i.postimg.cc/7LMTV5f1/photo-2026-04-13-19-31-06.jpg",
@@ -249,7 +241,7 @@
             const deck = document.getElementById('deck');
             const btn = document.getElementById('resetBtn');
             const bg = document.getElementById('bg-dinamico');
-            deck.querySelectorAll('.photo-card').forEach(c => c.remove());
+            deck.innerHTML = '';
             fotosRemovidas = 0;
             btn.style.opacity = '0';
             btn.style.pointerEvents = 'none';
@@ -258,7 +250,7 @@
                 const card = document.createElement('div');
                 card.className = 'photo-card';
                 card.style.zIndex = i + 10;
-                card.innerHTML = `<img src="${src}">`;
+                card.innerHTML = `<img src="${src}" draggable="false">`;
                 deck.appendChild(card);
                 configurarSwipe(card);
                 if(i === links.length - 1) bg.style.backgroundImage = `url(${src})`;
@@ -268,8 +260,10 @@
         function configurarSwipe(el) {
             let startX, moveX = 0;
             const bg = document.getElementById('bg-dinamico');
+            
             const finalizar = () => {
                 if (Math.abs(moveX) > 100) {
+                    el.style.transition = '0.5s';
                     el.style.transform = `translateX(${moveX > 0 ? 1000 : -1000}px) rotate(${moveX/5}deg)`;
                     el.style.opacity = '0';
                     fotosRemovidas++;
@@ -279,7 +273,10 @@
                         document.getElementById('resetBtn').style.opacity = '1';
                         document.getElementById('resetBtn').style.pointerEvents = 'auto';
                     }
-                } else { el.style.transform = 'translateX(0) rotate(0)'; }
+                } else { 
+                    el.style.transition = '0.3s';
+                    el.style.transform = 'translateX(0) rotate(0)'; 
+                }
                 startX = null; moveX = 0;
             };
 
@@ -292,6 +289,7 @@
             el.addEventListener('touchend', finalizar);
         }
 
+        // Roleta
         let rot = 0;
         function girarRoleta() {
             const wheel = document.getElementById('wheel');
@@ -304,9 +302,10 @@
             setTimeout(() => { res.innerText = "Ganhou: " + premios[sorteio]; }, 4000);
         }
 
+        // Timer
         function updateTimers() {
             const agora = new Date();
-            const inicio = new Date(2024, 5, 14);
+            const inicio = new Date(2024, 5, 14); // 14 de Junho
             const diff = agora - inicio;
             document.getElementById('d').innerText = Math.floor(diff / 864e5);
             document.getElementById('h').innerText = Math.floor((diff % 864e5) / 36e5);
